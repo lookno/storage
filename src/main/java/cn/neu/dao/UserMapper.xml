@@ -3,11 +3,18 @@
  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="cn.neu.dao.UserDao">
 	<insert id="insert" parameterType="cn.neu.bean.User">
-		insert into `user`(`username`,`password`,`phone`,`email`) values(
-		  #{username,jdbcType=VARCHAR},
-		  #{password,jdbcType=VARCHAR},
-		  #{phone,jdbcType=VARCHAR},
-		  #{email,jdbcType=VARCHAR}
+		insert into
+		`user`(`username`,`password`,`phone`,`email`) values(
+		#{username,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR}
 		)
 	</insert>
+
+	<select id="select" parameterType="cn.neu.bean.User" resultType="cn.neu.bean.User">
+		select * from `user` where
+		`username` = #{username,jdbcType=VARCHAR} and `password` =
+		#{password,jdbcType=VARCHAR}
+	</select>
 </mapper>
