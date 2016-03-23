@@ -16,7 +16,7 @@ public class BaseController {
 	@ExceptionHandler(value = Throwable.class)
 	public ResponseEntity<Object> handleThrowable(Throwable e) {
 		log.error("BaseController get an error", e);
-		return new ResponseEntity<Object>("系统异常,请稍后访问", HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<Object>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ExceptionHandler(value = ServerException.class)

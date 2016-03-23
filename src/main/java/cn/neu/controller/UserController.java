@@ -19,10 +19,14 @@ public class UserController {
 	private IUserService iUserService;
 	private Logger log = Logger.getLogger(this.getClass());
 	
-	@RequestMapping(value="/register",method=RequestMethod.POST ,produces = "application/json")
+	@RequestMapping(value="/register",method=RequestMethod.POST , produces = "application/json",consumes="application/json")
     public ResponseEntity<Object> register(@RequestBody User user) throws Exception{
         log.info("into UserController.register() , param: "+user);
         iUserService.register(user);
         return new ResponseEntity<Object>(HttpStatus.OK);
     }
+	@RequestMapping(value="/test" ,method=RequestMethod.GET)
+	public ResponseEntity<Object> test() throws Exception{
+		return new ResponseEntity<Object>("testOK",HttpStatus.OK);
+	}
 }
