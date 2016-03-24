@@ -8,5 +8,5 @@ import cn.neu.dto.GoodsDto;
 public interface GoodsDao {
 	public void insertGoods(Goods goods);
 	public void updateGoods(Goods goods);
-	public List<Goods> listGoods(GoodsDto goodsParams);
+	public List<Goods> listGoods(GoodsDto goodsDto);
 }

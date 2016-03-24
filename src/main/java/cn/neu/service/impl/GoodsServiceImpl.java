@@ -42,12 +42,12 @@ public class GoodsServiceImpl implements IGoodsService {
 	}
 
 	@Override
-	public List<Goods> listGoods(GoodsDto goodsParams) throws ServerException {
-		goodsParams.setStart((goodsParams.getPage() - 1) * goodsParams.getPageSize());
-		goodsParams.setLimit(goodsParams.getPageSize());
+	public List<Goods> listGoods(GoodsDto goodsDto) throws ServerException {
+		goodsDto.setStart((goodsDto.getPage() - 1) * goodsDto.getPageSize());
+		goodsDto.setLimit(goodsDto.getPageSize());
 		List<Goods> goodsList = null;
 		try {
-			goodsList = goodsDao.listGoods(goodsParams);
+			goodsList = goodsDao.listGoods(goodsDto);
 		} catch (Exception e) {
 			log.error("GoodsServiceImpl.listGoods occurs an Exception: ", e);
 			throw new ServerException("数据库异常,请稍后再试", e);
