@@ -39,7 +39,19 @@ public class UserController {
 		map.put("msg", "用户名或密码错误");
 		return new ResponseEntity<Object>(map, HttpStatus.BAD_REQUEST);
 	}
-
+	
+	//找回密码
+	@RequestMapping(value = "/findpwd", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public ResponseEntity<Object> findpwd(@RequestBody User user) throws Exception {
+		log.info("into UserController.login() , param: " + user);
+		User user2 = iUserService.login(user);
+		if(user2!=null){
+			return new ResponseEntity<Object>(user2, HttpStatus.OK);
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("msg", "用户名或密码错误");
+		return new ResponseEntity<Object>(map, HttpStatus.BAD_REQUEST);
+	}
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public ResponseEntity<Object> test() throws Exception {
 		return new ResponseEntity<Object>("testOK", HttpStatus.OK);
