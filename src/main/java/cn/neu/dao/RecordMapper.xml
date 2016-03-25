@@ -35,4 +35,14 @@
 		</if>
 		limit #{start},#{limit}
 	</select>
+	<select id="profit" parameterType="cn.neu.dto.ProfitParamsDto"
+		resultType="cn.neu.bean.Record">
+		select * from `record` where 1=1
+		<if test="s_time !=null and e_time !=null">
+			and create_time >= #{s_time} and #{s_time} >= create_time
+		</if>
+		<if test="type !=0">
+			and type = #{type}
+		</if>
+	</select>
 </mapper>

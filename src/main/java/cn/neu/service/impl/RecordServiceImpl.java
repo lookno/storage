@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import cn.neu.bean.Record;
 import cn.neu.dao.RecordDao;
+import cn.neu.dto.ProfitParamsDto;
 import cn.neu.dto.RecordDto;
 import cn.neu.exception.ServerException;
 import cn.neu.service.IRecordService;
@@ -48,6 +49,19 @@ public class RecordServiceImpl implements IRecordService {
 			throw new ServerException("数据库异常,请稍后再试", e);
 		}
 		return recordList;
+	}
+
+	@Override
+	public List<Record> profit(ProfitParamsDto profitParamsDto) throws ServerException {
+		List<Record> records = null;
+		try {
+			records = recordDao.profit(profitParamsDto);
+		} catch (Exception e) {
+			log.error("RecordServiceImpl.profit occurs an Exception: ", e);
+			throw new ServerException("数据库异常,请稍后再试", e);
+		}
+		
+		return records;
 	}
 
 }

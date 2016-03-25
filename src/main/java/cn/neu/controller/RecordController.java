@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import cn.neu.bean.Record;
+import cn.neu.dto.ProfitParamsDto;
 import cn.neu.dto.RecordDto;
 import cn.neu.service.IRecordService;
+import cn.neu.vo.ProfitVo;
 import cn.neu.vo.RecordVo;
 
 @RestController
@@ -47,4 +49,27 @@ public class RecordController {
 		RecordVo.setPage(recordDto.getPage());
 		return new ResponseEntity<Object>(RecordVo, HttpStatus.OK);
 	}
+
+	@RequestMapping(value = "/profit", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
+	public ResponseEntity<Object> profit(@ModelAttribute ProfitParamsDto profitParamsDto) throws Exception {
+		log.info("into RecordController.profit() , param: " + profitParamsDto);
+		List<Record> recordList = iRecordService.profit(profitParamsDto);
+		ProfitVo profitVo = new ProfitVo();
+		profitVo.setRecordList(recordList);
+		profitVo.setE_time(profitParamsDto.getE_time());
+		profitVo.setS_time(profitParamsDto.getS_time());
+		double cost=0, earn=0;
+		for (Record r : recordList) {
+			if (r.getType() == 1) {// 出库
+				earn += r.getPrice();
+			}
+			if (r.getType() == 2) {//花销
+				cost += r.getPrice();
+			}
+		}
+		profitVo.setCost(cost);
+		profitVo.setEarn(earn);
+		return new ResponseEntity<Object>(profitVo, HttpStatus.OK);
+	}
+
 }

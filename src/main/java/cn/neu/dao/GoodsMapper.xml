@@ -4,10 +4,11 @@
 <mapper namespace="cn.neu.dao.GoodsDao">
 	<insert id="insertGoods" parameterType="cn.neu.bean.Goods">
 		insert into
-		`goods`(`name`,`count`,`type`) values(
+		`goods`(`name`,`count`,`type`,`price`) values(
 		#{name,jdbcType=VARCHAR},
 		#{count,jdbcType=INTEGER},
-		#{type,jdbcType=INTEGER}
+		#{type,jdbcType=INTEGER},
+		#{price,jdbcType=DECIMAL}
 		)
 	</insert>
 	<update id="updateGoods" parameterType="cn.neu.bean.Goods">
@@ -21,14 +22,17 @@
 		<if test="type !=null">
 			, `type` = #{type,jdbcType=INTEGER}
 		</if>
+		<if test="price !=null">
+			, `price` = #{price,jdbcType=DECIMAL}
+		</if>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<select id="listGoods" parameterType="cn.neu.dto.GoodsDto"
 		resultType="cn.neu.bean.Goods">
-		select * from `goods` where `type` = #{type} 
-		<if test="listZero == false"> 
-			and `count` >0 
+		select * from `goods` where `type` = #{type}
+		<if test="listZero == false">
+			and `count` >0
 		</if>
-		limit #{start},#{limit} 
+		limit #{start},#{limit}
 	</select>
 </mapper>
