@@ -1,5 +1,6 @@
 package cn.neu.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,10 +9,13 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import cn.neu.bean.Goods;
+import cn.neu.bean.OutputGoods;
+import cn.neu.bean.OutputRecord;
 import cn.neu.bean.Record;
 import cn.neu.dao.GoodsDao;
 import cn.neu.dao.RecordDao;
 import cn.neu.dto.GoodsDto;
+import cn.neu.dto.OutputParamsDto;
 import cn.neu.exception.ServerException;
 import cn.neu.service.IGoodsService;
 
@@ -31,10 +35,10 @@ public class GoodsServiceImpl implements IGoodsService {
 
 			Record record = new Record();
 			record.setGoods_id(goods.getId());
-			if (goods.getType() == 0) {
+			if (goods.getType() == 1) {
 				record.setComment("生产入库");
 				record.setType(3);
-			} else if (goods.getType() == 1) {
+			} else if (goods.getType() == 2) {
 				record.setComment("购买入库");
 				record.setType(2);
 				record.setPrice(goods.getPrice() * goods.getCount());
@@ -76,9 +80,9 @@ public class GoodsServiceImpl implements IGoodsService {
 
 	@Override
 	public List<Goods> listGoods(GoodsDto goodsDto) throws ServerException {
-		if(goodsDto.getPage()<=0)
+		if (goodsDto.getPage() <= 0)
 			goodsDto.setPage(1);
-		if(goodsDto.getPageSize()<=0)
+		if (goodsDto.getPageSize() <= 0)
 			goodsDto.setPageSize(20);
 		goodsDto.setStart((goodsDto.getPage() - 1) * goodsDto.getPageSize());
 		goodsDto.setLimit(goodsDto.getPageSize());
@@ -91,6 +95,35 @@ public class GoodsServiceImpl implements IGoodsService {
 		}
 
 		return goodsList;
+	}
+
+	@Override
+	public List<OutputGoods> output(GoodsDto goodsDto) throws ServerException {
+		List<Goods> outputs = null;
+		try {
+			outputs = goodsDao.listGoods(goodsDto);
+		} catch (Exception e) {
+			log.error("GoodsServiceImpl.listGoods occurs an Exception: ", e);
+			throw new ServerException("数据库异常,请稍后再试", e);
+		}
+		return transGoodsToOPGS(outputs);
+	}
+
+	private List<OutputGoods> transGoodsToOPGS(List<Goods> outputs) {
+		List<OutputGoods> opgs = new ArrayList<>();
+		for (Goods g : outputs) {
+			OutputGoods opg = new OutputGoods();
+			opg.setCount(g.getCount());
+			opg.setName(g.getName());
+			opg.setPrice(g.getPrice());
+			if (g.getType() == 1) {
+				opg.setTypeName("生产的商品");
+			} else if (g.getType() == 2) {
+				opg.setTypeName("购入的商品");
+			}
+			opgs.add(opg);
+		}
+		return opgs;
 	}
 
 }

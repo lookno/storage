@@ -18,5 +18,5 @@ public interface IRecordService {
 
 	public List<Record> profit(ProfitParamsDto profitParamsDto) throws ServerException;
 
-	public List<OutputRecord> output(OutputParamsDto outputParamsDto) throws ServerException;;
+	public List<OutputRecord> output(OutputParamsDto outputParamsDto) throws ServerException;
 }

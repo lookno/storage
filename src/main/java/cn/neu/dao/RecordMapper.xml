@@ -13,16 +13,16 @@
 	</insert>
 	<update id="updateRecord" parameterType="cn.neu.bean.Record">
 		update `record` set id = #{id,jdbcType=INTEGER}
-		<if test="goods_id !=null">
+		<if test="goods_id !=0">
 			, `goods_id` = #{goods_id,jdbcType=INTEGER}
 		</if>
 		<if test="comment !=null">
 			, `comment` = #{comment,jdbcType=VARCHAR}
 		</if>
-		<if test="price !=null">
+		<if test="price !=0">
 			, `price` = #{price,jdbcType=DOUBLE}
 		</if>
-		<if test="type !=null">
+		<if test="type !=0">
 			, `type` = #{type,jdbcType=INTEGER}
 		</if>
 		where id = #{id,jdbcType=INTEGER}

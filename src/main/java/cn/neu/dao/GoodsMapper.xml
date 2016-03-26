@@ -19,26 +19,29 @@
 		<if test="name !=null">
 			, `name` = #{name,jdbcType=VARCHAR}
 		</if>
-		<if test="count !=null">
+		<if test="count !=0">
 			, `count` = `count` + #{count,jdbcType=INTEGER}
 		</if>
-		<if test="type !=null">
+		<if test="type !=0">
 			, `type` = #{type,jdbcType=INTEGER}
 		</if>
-		<if test="price !=null">
+		<if test="price !=0">
 			, `price` = #{price,jdbcType=DOUBLE}
 		</if>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<select id="listGoods" parameterType="cn.neu.dto.GoodsDto"
 		resultType="cn.neu.bean.Goods">
-		select * from `goods` where 1=1 
-		<if test="type !=null">
+		select * from `goods` where 1=1
+		<if test="type !=0">
 			and `type` = #{type,jdbcType=INTEGER}
 		</if>
 		<if test="listZero == false">
 			and `count` >0
 		</if>
-		limit #{start},#{limit}
+		<if test="start!=0 and limit!=0">
+			limit #{start},#{limit}
+		</if>
+
 	</select>
 </mapper>

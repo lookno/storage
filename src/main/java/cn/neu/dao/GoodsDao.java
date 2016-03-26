@@ -3,6 +3,7 @@ package cn.neu.dao;
 import java.util.List;
 
 import cn.neu.bean.Goods;
+import cn.neu.bean.OutputGoods;
 import cn.neu.dto.GoodsDto;
 
 public interface GoodsDao {

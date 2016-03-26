@@ -102,7 +102,12 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>4.2.5.RELEASE</version>
 		</dependency>
-
+		<!-- commons csv -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>1.2</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<!-- 解决eclipse升级报错 -->

@@ -1,6 +1,11 @@
 package cn.neu.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -17,6 +22,7 @@ import cn.neu.dto.OutputParamsDto;
 import cn.neu.dto.ProfitParamsDto;
 import cn.neu.dto.RecordDto;
 import cn.neu.service.IRecordService;
+import cn.neu.utils.CsvFileWriter;
 import cn.neu.vo.ProfitVo;
 import cn.neu.vo.RecordVo;
 
@@ -81,6 +87,13 @@ public class RecordController {
 	public ResponseEntity<Object> output(@ModelAttribute OutputParamsDto outputParamsDto) throws Exception {
 		log.info("into RecordController.profit() , param: " + outputParamsDto);
 		List<OutputRecord> outputList = iRecordService.output(outputParamsDto);
-		return new ResponseEntity<Object>(outputList, HttpStatus.OK);
+		String address = outputParamsDto.getFileAddr() == null
+				? "c:\\" + new SimpleDateFormat("YYYY-MM-dd").format(new Date()) + "-账务记录.csv"
+				: outputParamsDto.getFileAddr() + new SimpleDateFormat("YYYY-MM-dd").format(new Date()) + "-账务记录.csv";
+		CsvFileWriter.writeCsvFile(outputList, CsvFileWriter.OUTPUT_RECORD_FILE_HEADER, address);
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "导出csv文件成功");
+		map.put("location", address);
+		return new ResponseEntity<Object>(map, HttpStatus.OK);
 	}
 }
