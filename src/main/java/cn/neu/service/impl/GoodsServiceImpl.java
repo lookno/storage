@@ -55,10 +55,17 @@ public class GoodsServiceImpl implements IGoodsService {
 			goodsDao.updateGoods(goods);
 
 			Record record = new Record();
-			record.setGoods_id(goods.getId());
-			record.setComment("商品出库");
-			record.setType(1);
-			record.setPrice(goods.getPrice() * goods.getCount());
+			if (goods.getCount() < 0) {
+				record.setGoods_id(goods.getId());
+				record.setComment("商品出库");
+				record.setType(1);
+				record.setPrice(-goods.getPrice() * goods.getCount());
+			} else {
+				record.setGoods_id(goods.getId());
+				record.setComment("生产入库");
+				record.setType(3);
+			}
+
 			recordDao.insertRecord(record);
 
 		} catch (Exception e) {
@@ -69,6 +76,10 @@ public class GoodsServiceImpl implements IGoodsService {
 
 	@Override
 	public List<Goods> listGoods(GoodsDto goodsDto) throws ServerException {
+		if(goodsDto.getPage()<=0)
+			goodsDto.setPage(1);
+		if(goodsDto.getPageSize()<=0)
+			goodsDto.setPageSize(20);
 		goodsDto.setStart((goodsDto.getPage() - 1) * goodsDto.getPageSize());
 		goodsDto.setLimit(goodsDto.getPageSize());
 		List<Goods> goodsList = null;

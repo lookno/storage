@@ -5,7 +5,7 @@ public class RecordDto {
 	private int pageSize;
 	private int start;
 	private int limit;
-	private int type; // 0所有 1 2出库 3入库
+	private int type; // 0所有 1 出库 2花销 3入库
 
 	public int getPage() {
 		return page;

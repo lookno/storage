@@ -3,12 +3,15 @@
  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="cn.neu.dao.GoodsDao">
 	<insert id="insertGoods" parameterType="cn.neu.bean.Goods">
+		<selectKey resultType="int" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 		insert into
 		`goods`(`name`,`count`,`type`,`price`) values(
 		#{name,jdbcType=VARCHAR},
 		#{count,jdbcType=INTEGER},
 		#{type,jdbcType=INTEGER},
-		#{price,jdbcType=DECIMAL}
+		#{price,jdbcType=DOUBLE}
 		)
 	</insert>
 	<update id="updateGoods" parameterType="cn.neu.bean.Goods">
@@ -17,19 +20,22 @@
 			, `name` = #{name,jdbcType=VARCHAR}
 		</if>
 		<if test="count !=null">
-			, `count` = #{count,jdbcType=INTEGER}
+			, `count` = `count` + #{count,jdbcType=INTEGER}
 		</if>
 		<if test="type !=null">
 			, `type` = #{type,jdbcType=INTEGER}
 		</if>
 		<if test="price !=null">
-			, `price` = #{price,jdbcType=DECIMAL}
+			, `price` = #{price,jdbcType=DOUBLE}
 		</if>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<select id="listGoods" parameterType="cn.neu.dto.GoodsDto"
 		resultType="cn.neu.bean.Goods">
-		select * from `goods` where `type` = #{type}
+		select * from `goods` where 1=1 
+		<if test="type !=null">
+			and `type` = #{type,jdbcType=INTEGER}
+		</if>
 		<if test="listZero == false">
 			and `count` >0
 		</if>

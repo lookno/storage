@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import cn.neu.bean.OutputRecord;
 import cn.neu.bean.Record;
+import cn.neu.dto.OutputParamsDto;
 import cn.neu.dto.ProfitParamsDto;
 import cn.neu.dto.RecordDto;
 import cn.neu.service.IRecordService;
@@ -50,6 +53,8 @@ public class RecordController {
 		return new ResponseEntity<Object>(RecordVo, HttpStatus.OK);
 	}
 
+	// time时间这样传localhost:8080/storage/record/profit?s_time=2016-01-01
+	// 00:00:00&e_time=2017-01-01 00:00:00
 	@RequestMapping(value = "/profit", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
 	public ResponseEntity<Object> profit(@ModelAttribute ProfitParamsDto profitParamsDto) throws Exception {
 		log.info("into RecordController.profit() , param: " + profitParamsDto);
@@ -58,12 +63,12 @@ public class RecordController {
 		profitVo.setRecordList(recordList);
 		profitVo.setE_time(profitParamsDto.getE_time());
 		profitVo.setS_time(profitParamsDto.getS_time());
-		double cost=0, earn=0;
+		double cost = 0, earn = 0;
 		for (Record r : recordList) {
 			if (r.getType() == 1) {// 出库
 				earn += r.getPrice();
 			}
-			if (r.getType() == 2) {//花销
+			if (r.getType() == 2) {// 花销
 				cost += r.getPrice();
 			}
 		}
@@ -72,4 +77,10 @@ public class RecordController {
 		return new ResponseEntity<Object>(profitVo, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/output", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
+	public ResponseEntity<Object> output(@ModelAttribute OutputParamsDto outputParamsDto) throws Exception {
+		log.info("into RecordController.profit() , param: " + outputParamsDto);
+		List<OutputRecord> outputList = iRecordService.output(outputParamsDto);
+		return new ResponseEntity<Object>(outputList, HttpStatus.OK);
+	}
 }

@@ -21,21 +21,24 @@ public class GoodsController {
 	@Resource
 	private IGoodsService iGoodsService;
 	private Logger log = Logger.getLogger(this.getClass());
-
+	
+	//新增入库   添加新商品时使用这个接口
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public ResponseEntity<Object> addGoods(@RequestBody Goods goods) throws Exception {
 		log.info("into GoodsController.addGoods() , param: " + goods);
+		System.out.println(goods);
 		iGoodsService.insertGoods(goods);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
-
+	//出库 和对已存在商品进行入库   使用这个接口
+	//出库时    把goods.count写为负数
 	@RequestMapping(value = "/modify", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public ResponseEntity<Object> modifyGoods(@RequestBody Goods goods) throws Exception {
 		log.info("into GoodsController.modifyGoods() , param: " + goods);
 		iGoodsService.updateGoods(goods);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
-
+	//page 和pageSize默认为1和20 type不传即查所有
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
 	public ResponseEntity<Object> listGoods(@ModelAttribute GoodsDto goodsDto) throws Exception {
 		log.info("into GoodsController.listGoods() , param: " + goodsDto);

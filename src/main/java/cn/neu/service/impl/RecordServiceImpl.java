@@ -4,8 +4,11 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+
+import cn.neu.bean.OutputRecord;
 import cn.neu.bean.Record;
 import cn.neu.dao.RecordDao;
+import cn.neu.dto.OutputParamsDto;
 import cn.neu.dto.ProfitParamsDto;
 import cn.neu.dto.RecordDto;
 import cn.neu.exception.ServerException;
@@ -39,6 +42,10 @@ public class RecordServiceImpl implements IRecordService {
 
 	@Override
 	public List<Record> listRecord(RecordDto recordDto) throws ServerException {
+		if(recordDto.getPage()<=0)
+			recordDto.setPage(1);
+		if(recordDto.getPageSize()<=0)
+			recordDto.setPageSize(20);
 		recordDto.setStart((recordDto.getPage() - 1) * recordDto.getPageSize());
 		recordDto.setLimit(recordDto.getPageSize());
 		List<Record> recordList = null;
@@ -62,6 +69,29 @@ public class RecordServiceImpl implements IRecordService {
 		}
 		
 		return records;
+	}
+
+	@Override
+	public List<OutputRecord> output(OutputParamsDto outputParamsDto) throws ServerException {
+		List<OutputRecord> outputs = null;
+		try {
+			outputs = recordDao.output(outputParamsDto);
+		} catch (Exception e) {
+			log.error("RecordServiceImpl.output occurs an Exception: ", e);
+			throw new ServerException("数据库异常,请稍后再试", e);
+		}
+		for(OutputRecord or : outputs){
+			if(or.getType() == 0){
+				or.setTypeName("与商品出入库无关记录");
+			}else if(or.getType()==1){
+				or.setTypeName("销售出库记录");
+			}else if(or.getType()==2){
+				or.setTypeName("购入花销记录");
+			}else if(or.getType()==3){
+				or.setTypeName("生产入库记录");
+			}
+		}
+		return outputs;
 	}
 
 }
