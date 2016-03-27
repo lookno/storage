@@ -5,19 +5,25 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import cn.neu.bean.Goods;
 import cn.neu.bean.OutputRecord;
 import cn.neu.bean.Record;
+import cn.neu.dao.GoodsDao;
 import cn.neu.dao.RecordDao;
 import cn.neu.dto.OutputParamsDto;
 import cn.neu.dto.ProfitParamsDto;
 import cn.neu.dto.RecordDto;
 import cn.neu.exception.ServerException;
+import cn.neu.exception.ServiceException;
 import cn.neu.service.IRecordService;
+import cn.neu.utils.CsvFileWriter;
 
 @Service
 public class RecordServiceImpl implements IRecordService {
 	@Resource
 	private RecordDao recordDao;
+	@Resource
+	private GoodsDao goodsDao;
 	private Logger log = Logger.getLogger(this.getClass());
 
 	@Override
@@ -92,6 +98,20 @@ public class RecordServiceImpl implements IRecordService {
 			}
 		}
 		return outputs;
+	}
+
+	@Override
+	public void batchInsertRecords(String fileName) throws ServerException, ServiceException {
+		List<Record> list = null;
+		try {
+			list = CsvFileWriter.readRecords(fileName,goodsDao);
+		} catch (ServiceException e1) {
+			throw e1;
+		} catch (Exception e2) {
+			throw new ServerException("读取数据失败", e2);
+		}
+
+		recordDao.batchInsertRecords(list);
 	}
 
 }

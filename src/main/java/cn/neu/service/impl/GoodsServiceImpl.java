@@ -17,7 +17,9 @@ import cn.neu.dao.RecordDao;
 import cn.neu.dto.GoodsDto;
 import cn.neu.dto.OutputParamsDto;
 import cn.neu.exception.ServerException;
+import cn.neu.exception.ServiceException;
 import cn.neu.service.IGoodsService;
+import cn.neu.utils.CsvFileWriter;
 
 @Service
 public class GoodsServiceImpl implements IGoodsService {
@@ -113,6 +115,7 @@ public class GoodsServiceImpl implements IGoodsService {
 		List<OutputGoods> opgs = new ArrayList<>();
 		for (Goods g : outputs) {
 			OutputGoods opg = new OutputGoods();
+			opg.setId(g.getId());
 			opg.setCount(g.getCount());
 			opg.setName(g.getName());
 			opg.setPrice(g.getPrice());
@@ -124,6 +127,20 @@ public class GoodsServiceImpl implements IGoodsService {
 			opgs.add(opg);
 		}
 		return opgs;
+	}
+
+	@Override
+	public void batchInsertGoods(String fileName) throws ServerException, ServiceException {
+		List<Goods> list = null;
+		try {
+			list = CsvFileWriter.readGoods(fileName);
+		} catch (ServiceException e1) {
+			throw e1;
+		} catch (Exception e2) {
+			throw new ServerException("读取数据失败", e2);
+		}
+
+		goodsDao.batchInsertGoods(list);
 	}
 
 }

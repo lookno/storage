@@ -8,6 +8,7 @@ import cn.neu.dto.OutputParamsDto;
 import cn.neu.dto.ProfitParamsDto;
 import cn.neu.dto.RecordDto;
 import cn.neu.exception.ServerException;
+import cn.neu.exception.ServiceException;
 
 public interface IRecordService {
 	public void insertRecord(Record record) throws ServerException;
@@ -19,4 +20,6 @@ public interface IRecordService {
 	public List<Record> profit(ProfitParamsDto profitParamsDto) throws ServerException;
 
 	public List<OutputRecord> output(OutputParamsDto outputParamsDto) throws ServerException;
+
+	public void batchInsertRecords(String fileName) throws ServerException, ServiceException;
 }

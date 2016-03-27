@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.neu.bean.OutputRecord;
 import cn.neu.bean.Record;
+import cn.neu.dto.GoodsDto;
 import cn.neu.dto.OutputParamsDto;
 import cn.neu.dto.ProfitParamsDto;
 import cn.neu.dto.RecordDto;
@@ -94,6 +95,15 @@ public class RecordController {
 		Map<String, String> map = new HashMap<>();
 		map.put("msg", "导出csv文件成功");
 		map.put("location", address);
+		return new ResponseEntity<Object>(map, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/input", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
+	public ResponseEntity<Object> input(@ModelAttribute RecordDto recordDto) throws Exception {
+		log.info("into RecordController.input() , param: " + recordDto);
+		iRecordService.batchInsertRecords(recordDto.getFileAddr());
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "导入csv文件成功");
 		return new ResponseEntity<Object>(map, HttpStatus.OK);
 	}
 }

@@ -6,6 +6,7 @@ public class RecordDto {
 	private int start;
 	private int limit;
 	private int type; // 0所有 1 出库 2花销 3入库
+	private String fileAddr;
 
 	public int getPage() {
 		return page;
@@ -21,14 +22,6 @@ public class RecordDto {
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
 	}
 
 	public int getStart() {
@@ -47,10 +40,26 @@ public class RecordDto {
 		this.limit = limit;
 	}
 
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public String getFileAddr() {
+		return fileAddr;
+	}
+
+	public void setFileAddr(String fileAddr) {
+		this.fileAddr = fileAddr;
+	}
+
 	@Override
 	public String toString() {
 		return "RecordDto [page=" + page + ", pageSize=" + pageSize + ", start=" + start + ", limit=" + limit
-				+ ", type=" + type + "]";
+				+ ", type=" + type + ", fileAddr=" + fileAddr + "]";
 	}
 
 }

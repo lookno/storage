@@ -75,4 +75,12 @@ public class GoodsController {
 		return new ResponseEntity<Object>(map, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/input", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
+	public ResponseEntity<Object> input(@ModelAttribute GoodsDto goodsDto) throws Exception {
+		log.info("into GoodsController.input() , param: " + goodsDto);
+		iGoodsService.batchInsertGoods(goodsDto.getFileAddr());
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "导入csv文件成功");
+		return new ResponseEntity<Object>(map, HttpStatus.OK);
+	}
 }

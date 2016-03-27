@@ -1,7 +1,6 @@
 package cn.neu.dao;
 
 import java.util.List;
-
 import cn.neu.bean.OutputRecord;
 import cn.neu.bean.Record;
 import cn.neu.dto.OutputParamsDto;
@@ -18,4 +17,6 @@ public interface RecordDao {
 	public List<Record> profit(ProfitParamsDto profitParamsDto);
 
 	public List<OutputRecord> output(OutputParamsDto outputParamsDto);
+
+	public void batchInsertRecords(List<Record> list);
 }

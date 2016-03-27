@@ -39,7 +39,8 @@
 		resultType="cn.neu.bean.Record">
 		select * from `record` where 1=1
 		<if test="s_time !=null and e_time !=null">
-			and create_time &gt; #{s_time} and create_time &lt; #{e_time}
+			and create_time &gt; #{s_time} and create_time &lt;
+			#{e_time}
 		</if>
 		<if test="goods_id !=0">
 			and goods_id = #{goods_id}
@@ -54,9 +55,19 @@
 		r.create_time,r.update_time,r.comment,r.price,r.type,g.name as
 		goodsName from `record` as r left join `goods` as g on r.goods_id
 		=
-		g.id where 1=1 
+		g.id where 1=1
 		<if test="type != 0">
 			and r.type = #{type}
 		</if>
 	</select>
+
+	<insert id="batchInsertRecords">
+		insert into record
+		(`goods_id`,`create_time`,`update_time`,`comment`,`price`,`type`)
+		values
+		<foreach collection="list" index="index" item="item"
+			separator=",">
+			(#{item.goods_id},#{item.create_time},#{item.update_time},#{item.comment},#{item.price},#{item.type})
+		</foreach>
+	</insert>
 </mapper>

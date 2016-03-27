@@ -1,10 +1,19 @@
 package cn.neu.bean;
 
 public class OutputGoods {
+	private int id;
 	private String name;
 	private int count;
 	private String typeName;
 	private double price;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -40,7 +49,8 @@ public class OutputGoods {
 
 	@Override
 	public String toString() {
-		return "OutputGoods [name=" + name + ", count=" + count + ", typeName=" + typeName + ", price=" + price + "]";
+		return "OutputGoods [id=" + id + ", name=" + name + ", count=" + count + ", typeName=" + typeName + ", price="
+				+ price + "]";
 	}
 
 }
