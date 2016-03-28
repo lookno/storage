@@ -1,10 +1,19 @@
 package cn.neu.bean;
 
 public class User {
+	private int id;
 	private String username;
 	private String password;
 	private String phone;
 	private String email;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getUsername() {
 		return username;
@@ -38,9 +47,10 @@ public class User {
 		this.email = email;
 	}
 
-	public String tostring() {
-		// TODO Auto-generated method stub
-		return "User:[username: " + username + ", password: " + password + ", phone: " + phone + ", email: " + email
-				+ "]";
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", phone=" + phone + ", email="
+				+ email + "]";
 	}
+
 }

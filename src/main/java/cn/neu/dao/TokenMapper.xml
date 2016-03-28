@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.neu.dao.TokenDao">
+	<insert id="insertToken" parameterType="cn.neu.dto.TokenParamsDto">
+		insert into
+		`token`(`user_id`,`http_token`,`expire_time`) values
+		(#{user_id},#{token},#{expire_time})
+	</insert>
+	<select id="ifTokenValid" parameterType="cn.neu.dto.TokenParamsDto" resultType="int">
+		select count(*) from
+		`token` where http_token = #{token} and expire_time &gt;
+		#{current_time} and valid =0
+	</select>
+	<update id="inValid" parameterType="cn.neu.dto.TokenParamsDto">
+		update `token` set valid =1 where http_token = #{token}
+	</update>
+</mapper>

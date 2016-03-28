@@ -66,7 +66,7 @@ public class GoodsController {
 		log.info("into GoodsController.output() , param: " + goodsDto);
 		List<OutputGoods> outputList = iGoodsService.output(goodsDto);
 		String address = goodsDto.getFileAddr() == null
-				? "c:\\" + new SimpleDateFormat("YYYY-MM-dd").format(new Date()) + "-库存记录.csv"
+				? "c:\\" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "-库存记录.csv"
 				: goodsDto.getFileAddr() + new SimpleDateFormat("YYYY-MM-dd").format(new Date()) + "-库存记录.csv";
 		CsvFileWriter.writeCsvFile(outputList, CsvFileWriter.GOODS_FILE_HEADER, address);
 		Map<String, String> map = new HashMap<>();
