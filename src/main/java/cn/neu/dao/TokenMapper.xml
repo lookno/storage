@@ -15,4 +15,7 @@
 	<update id="inValid" parameterType="cn.neu.dto.TokenParamsDto">
 		update `token` set valid =1 where http_token = #{token}
 	</update>
+	<select id="getUserIdByToken" parameterType="String" resultType="int">
+		select user_id from token where http_token = #{token}
+	</select>
 </mapper>

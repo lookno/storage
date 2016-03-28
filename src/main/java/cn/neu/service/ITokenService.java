@@ -9,4 +9,6 @@ public interface ITokenService {
 	public int ifTokenValid(TokenParamsDto params) throws ServerException;
 
 	public void inValid(TokenParamsDto params) throws ServerException;
+
+	public int getUserIdByToken(String token) throws ServerException;
 }

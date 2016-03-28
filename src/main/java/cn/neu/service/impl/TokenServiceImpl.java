@@ -49,4 +49,16 @@ public class TokenServiceImpl implements ITokenService {
 
 	}
 
+	@Override
+	public int getUserIdByToken(String token) throws ServerException {
+		int i;
+		try {
+			i = tokenDao.getUserIdByToken(token);
+		} catch (Exception e) {
+			log.error("TokenServiceImpl.getUserIdByToken occurs an Exception: ", e);
+			throw new ServerException("数据库异常,请稍后再试", e);
+		}
+		return i;
+	}
+
 }

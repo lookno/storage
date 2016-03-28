@@ -26,6 +26,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:db.properties</value>
+				<value>classpath:redis.properties</value>
 			</list>
 		</property>
 		<property name="fileEncoding" value="UTF-8" />
@@ -85,5 +86,23 @@
 				<value>application/json;charset=UTF-8</value>
 			</list>
 		</property>
+	</bean>
+	
+	<!-- redis配置 -->
+	<!-- redis连接池的配置 -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="${redisPoolMaxIdle}" />
+		<property name="minIdle" value="${redisPoolMinIdle}" />
+		<property name="maxWaitMillis" value="${redisPoolMaxWaitMillis}" />
+		<property name="testOnBorrow" value="${redisPoolTestOnBorrow}" />
+		<property name="testOnReturn" value="${redisPoolTtestOnReturn}" />
+	</bean>
+
+	<!-- redis的连接池pool，不是必选项：timeout/password -->
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+		<constructor-arg index="0" ref="jedisPoolConfig" />
+		<constructor-arg index="1" value="${redisHost}" />
+		<constructor-arg index="2" value="${redisPort}" type="int" />
+		<constructor-arg index="3" value="${redisTimeout}" type="int" />
 	</bean>
 </beans>

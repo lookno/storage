@@ -8,4 +8,6 @@ public interface TokenDao {
 	public int ifTokenValid(TokenParamsDto params);
 
 	public void inValid(TokenParamsDto params);
+
+	public int getUserIdByToken(String token);
 }

@@ -6,6 +6,7 @@ public class User {
 	private String password;
 	private String phone;
 	private String email;
+	private int permission;
 
 	public int getId() {
 		return id;
@@ -47,10 +48,18 @@ public class User {
 		this.email = email;
 	}
 
+	public int getPermission() {
+		return permission;
+	}
+
+	public void setPermission(int permission) {
+		this.permission = permission;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", phone=" + phone + ", email="
-				+ email + "]";
+				+ email + ", permission=" + permission + "]";
 	}
 
 }
