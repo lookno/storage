@@ -22,4 +22,6 @@ public interface IRecordService {
 	public List<OutputRecord> output(OutputParamsDto outputParamsDto) throws ServerException;
 
 	public void batchInsertRecords(String fileName) throws ServerException, ServiceException;
+	
+	public int getTotalNum(RecordDto RecordDto) throws ServerException, ServiceException;
 }

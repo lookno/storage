@@ -53,9 +53,10 @@ public class RecordController {
 		log.info("into RecordController.listRecord() , param: " + recordDto);
 		System.out.println(recordDto);
 		List<Record> recordList = iRecordService.listRecord(recordDto);
+		int count = iRecordService.getTotalNum(recordDto);
 		RecordVo RecordVo = new RecordVo();
 		RecordVo.setRecords(recordList);
-		RecordVo.setCount(recordList.size());
+		RecordVo.setCount(count);
 		RecordVo.setPage(recordDto.getPage());
 		return new ResponseEntity<Object>(RecordVo, HttpStatus.OK);
 	}
@@ -97,7 +98,7 @@ public class RecordController {
 		map.put("location", address);
 		return new ResponseEntity<Object>(map, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/input", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
 	public ResponseEntity<Object> input(@ModelAttribute RecordDto recordDto) throws Exception {
 		log.info("into RecordController.input() , param: " + recordDto);

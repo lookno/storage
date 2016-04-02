@@ -29,12 +29,27 @@
 	</update>
 	<select id="listRecord" parameterType="cn.neu.dto.RecordDto"
 		resultType="cn.neu.bean.Record">
-		select * from `record` where 1=1
+		select r.id,r.goods_id,
+		r.create_time,r.update_time,r.comment,r.price,r.type,g.name as
+		goods_name from `record` as r left join `goods` as g on r.goods_id
+		=
+		g.id
+		where 1=1
 		<if test="type != 0">
-			and `type` = #{type}
+			and r.type = #{type}
 		</if>
 		limit #{start},#{limit}
 	</select>
+	<select id="getTotalNum" parameterType="cn.neu.dto.RecordDto"
+		resultType="int">
+		select count(*) from record
+		where 1=1
+		<if test="type != 0">
+			and r.type = #{type}
+		</if>
+		limit #{start},#{limit}
+	</select>
+
 	<select id="profit" parameterType="cn.neu.dto.ProfitParamsDto"
 		resultType="cn.neu.bean.Record">
 		select * from `record` where 1=1
@@ -55,7 +70,8 @@
 		r.create_time,r.update_time,r.comment,r.price,r.type,g.name as
 		goodsName from `record` as r left join `goods` as g on r.goods_id
 		=
-		g.id where 1=1
+		g.id
+		where 1=1
 		<if test="type != 0">
 			and r.type = #{type}
 		</if>

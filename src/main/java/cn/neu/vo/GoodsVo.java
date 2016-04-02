@@ -7,7 +7,7 @@ import cn.neu.bean.Goods;
 public class GoodsVo {
 	private List<Goods> goods;
 	private int page;// 表示当前页数
-	private int count;// 表示页数的大小 比如 20 13
+	private int count;// 表示总数据量
 
 	public List<Goods> getGoods() {
 		return goods;

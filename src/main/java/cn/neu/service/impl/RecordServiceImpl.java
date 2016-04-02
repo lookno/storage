@@ -10,6 +10,7 @@ import cn.neu.bean.OutputRecord;
 import cn.neu.bean.Record;
 import cn.neu.dao.GoodsDao;
 import cn.neu.dao.RecordDao;
+import cn.neu.dto.GoodsDto;
 import cn.neu.dto.OutputParamsDto;
 import cn.neu.dto.ProfitParamsDto;
 import cn.neu.dto.RecordDto;
@@ -48,9 +49,9 @@ public class RecordServiceImpl implements IRecordService {
 
 	@Override
 	public List<Record> listRecord(RecordDto recordDto) throws ServerException {
-		if(recordDto.getPage()<=0)
+		if (recordDto.getPage() <= 0)
 			recordDto.setPage(1);
-		if(recordDto.getPageSize()<=0)
+		if (recordDto.getPageSize() <= 0)
 			recordDto.setPageSize(20);
 		recordDto.setStart((recordDto.getPage() - 1) * recordDto.getPageSize());
 		recordDto.setLimit(recordDto.getPageSize());
@@ -73,7 +74,7 @@ public class RecordServiceImpl implements IRecordService {
 			log.error("RecordServiceImpl.profit occurs an Exception: ", e);
 			throw new ServerException("数据库异常,请稍后再试", e);
 		}
-		
+
 		return records;
 	}
 
@@ -86,14 +87,14 @@ public class RecordServiceImpl implements IRecordService {
 			log.error("RecordServiceImpl.output occurs an Exception: ", e);
 			throw new ServerException("数据库异常,请稍后再试", e);
 		}
-		for(OutputRecord or : outputs){
-			if(or.getType() == 0){
+		for (OutputRecord or : outputs) {
+			if (or.getType() == 0) {
 				or.setTypeName("与商品出入库无关记录");
-			}else if(or.getType()==1){
+			} else if (or.getType() == 1) {
 				or.setTypeName("销售出库记录");
-			}else if(or.getType()==2){
+			} else if (or.getType() == 2) {
 				or.setTypeName("购入花销记录");
-			}else if(or.getType()==3){
+			} else if (or.getType() == 3) {
 				or.setTypeName("生产入库记录");
 			}
 		}
@@ -104,7 +105,7 @@ public class RecordServiceImpl implements IRecordService {
 	public void batchInsertRecords(String fileName) throws ServerException, ServiceException {
 		List<Record> list = null;
 		try {
-			list = CsvFileWriter.readRecords(fileName,goodsDao);
+			list = CsvFileWriter.readRecords(fileName, goodsDao);
 		} catch (ServiceException e1) {
 			throw e1;
 		} catch (Exception e2) {
@@ -112,6 +113,19 @@ public class RecordServiceImpl implements IRecordService {
 		}
 
 		recordDao.batchInsertRecords(list);
+	}
+
+	@Override
+	public int getTotalNum(RecordDto RecordDto) throws ServerException, ServiceException {
+		int count = 0;
+		try {
+			count = recordDao.getTotalNum(RecordDto);
+		} catch (Exception e) {
+			log.error("RecordServiceImpl.getTotalNum occurs an Exception: ", e);
+			throw new ServerException("数据库异常,请稍后再试", e);
+		}
+
+		return count;
 	}
 
 }

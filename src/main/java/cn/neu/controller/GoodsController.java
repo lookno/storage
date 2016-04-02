@@ -54,9 +54,10 @@ public class GoodsController {
 	public ResponseEntity<Object> listGoods(@ModelAttribute GoodsDto goodsDto) throws Exception {
 		log.info("into GoodsController.listGoods() , param: " + goodsDto);
 		List<Goods> goodsList = iGoodsService.listGoods(goodsDto);
+		int count = iGoodsService.getTotalNum(goodsDto);
 		GoodsVo goodsVo = new GoodsVo();
 		goodsVo.setGoods(goodsList);
-		goodsVo.setCount(goodsList.size());
+		goodsVo.setCount(count);
 		goodsVo.setPage(goodsDto.getPage());
 		return new ResponseEntity<Object>(goodsVo, HttpStatus.OK);
 	}

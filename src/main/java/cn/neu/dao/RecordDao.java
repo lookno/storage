@@ -3,6 +3,7 @@ package cn.neu.dao;
 import java.util.List;
 import cn.neu.bean.OutputRecord;
 import cn.neu.bean.Record;
+import cn.neu.dto.GoodsDto;
 import cn.neu.dto.OutputParamsDto;
 import cn.neu.dto.ProfitParamsDto;
 import cn.neu.dto.RecordDto;
@@ -19,4 +20,6 @@ public interface RecordDao {
 	public List<OutputRecord> output(OutputParamsDto outputParamsDto);
 
 	public void batchInsertRecords(List<Record> list);
+
+	public int getTotalNum(RecordDto RecordDto);
 }

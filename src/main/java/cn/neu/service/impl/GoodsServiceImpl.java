@@ -143,4 +143,16 @@ public class GoodsServiceImpl implements IGoodsService {
 		goodsDao.batchInsertGoods(list);
 	}
 
+	@Override
+	public int getTotalNum(GoodsDto goodsDto) throws ServerException, ServiceException {
+		int count ;
+		try {
+			count = goodsDao.getTotalNum(goodsDto);
+		} catch (Exception e) {
+			log.error("GoodsServiceImpl.getTotalNum occurs an Exception: ", e);
+			throw new ServerException("数据库异常,请稍后再试", e);
+		}
+		return count;
+	}
+
 }

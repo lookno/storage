@@ -3,6 +3,7 @@ package cn.neu.bean;
 public class Record {
 	private int id;
 	private int goods_id;
+	private String goods_name;
 	private String create_time;
 	private String update_time;
 	private String comment;
@@ -23,6 +24,14 @@ public class Record {
 
 	public void setGoods_id(int goods_id) {
 		this.goods_id = goods_id;
+	}
+
+	public String getGoods_name() {
+		return goods_name;
+	}
+
+	public void setGoods_name(String goods_name) {
+		this.goods_name = goods_name;
 	}
 
 	public String getCreate_time() {
@@ -67,8 +76,9 @@ public class Record {
 
 	@Override
 	public String toString() {
-		return "Record [id=" + id + ", goods_id=" + goods_id + ", create_time=" + create_time + ", update_time="
-				+ update_time + ", comment=" + comment + ", price=" + price + ", type=" + type + "]";
+		return "Record [id=" + id + ", goods_id=" + goods_id + ", goods_name=" + goods_name + ", create_time="
+				+ create_time + ", update_time=" + update_time + ", comment=" + comment + ", price=" + price + ", type="
+				+ type + "]";
 	}
 
 }
