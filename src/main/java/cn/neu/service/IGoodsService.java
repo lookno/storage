@@ -18,5 +18,5 @@ public interface IGoodsService {
 
 	public void batchInsertGoods(String fileName) throws ServerException, ServiceException;
 	
-	public int getTotalNum(GoodsDto goodsDto) throws ServerException, ServiceException;
+	public Integer getTotalNum(GoodsDto goodsDto) throws ServerException, ServiceException;
 }

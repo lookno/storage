@@ -53,10 +53,10 @@ public class RecordController {
 		log.info("into RecordController.listRecord() , param: " + recordDto);
 		System.out.println(recordDto);
 		List<Record> recordList = iRecordService.listRecord(recordDto);
-		int count = iRecordService.getTotalNum(recordDto);
+		Integer count = iRecordService.getTotalNum(recordDto);
 		RecordVo RecordVo = new RecordVo();
 		RecordVo.setRecords(recordList);
-		RecordVo.setCount(count);
+		RecordVo.setCount(count==null?0:count);
 		RecordVo.setPage(recordDto.getPage());
 		return new ResponseEntity<Object>(RecordVo, HttpStatus.OK);
 	}

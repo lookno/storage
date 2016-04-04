@@ -13,5 +13,5 @@ public interface GoodsDao {
 
 	public void batchInsertGoods(List<Goods> list);
 	
-	public int getTotalNum(GoodsDto goodsDto);
+	public Integer getTotalNum(GoodsDto goodsDto);
 }

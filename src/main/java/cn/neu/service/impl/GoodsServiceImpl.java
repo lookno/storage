@@ -66,12 +66,18 @@ public class GoodsServiceImpl implements IGoodsService {
 				record.setComment("商品出库");
 				record.setType(1);
 				record.setPrice(-goods.getPrice() * goods.getCount());
-			} else {
+			} else if(goods.getCount()>0){
 				record.setGoods_id(goods.getId());
 				record.setComment("生产入库");
 				record.setType(3);
+			} else if(goods.getCount()==0){
+				if(goods.getPrice()>0){
+					record.setGoods_id(goods.getId());
+					record.setComment("修改商品价格为:"+goods.getPrice());
+					record.setType(4);
+				}
 			}
-
+			
 			recordDao.insertRecord(record);
 
 		} catch (Exception e) {
@@ -97,6 +103,18 @@ public class GoodsServiceImpl implements IGoodsService {
 		}
 
 		return goodsList;
+	}
+
+	@Override
+	public Integer getTotalNum(GoodsDto goodsDto) throws ServerException, ServiceException {
+		int count;
+		try {
+			count = goodsDao.getTotalNum(goodsDto);
+		} catch (Exception e) {
+			log.error("GoodsServiceImpl.getTotalNum occurs an Exception: ", e);
+			throw new ServerException("数据库异常,请稍后再试", e);
+		}
+		return count;
 	}
 
 	@Override
@@ -141,18 +159,6 @@ public class GoodsServiceImpl implements IGoodsService {
 		}
 
 		goodsDao.batchInsertGoods(list);
-	}
-
-	@Override
-	public int getTotalNum(GoodsDto goodsDto) throws ServerException, ServiceException {
-		int count ;
-		try {
-			count = goodsDao.getTotalNum(goodsDto);
-		} catch (Exception e) {
-			log.error("GoodsServiceImpl.getTotalNum occurs an Exception: ", e);
-			throw new ServerException("数据库异常,请稍后再试", e);
-		}
-		return count;
 	}
 
 }

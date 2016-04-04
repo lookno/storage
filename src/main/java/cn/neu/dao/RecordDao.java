@@ -21,5 +21,5 @@ public interface RecordDao {
 
 	public void batchInsertRecords(List<Record> list);
 
-	public int getTotalNum(RecordDto RecordDto);
+	public Integer getTotalNum(RecordDto RecordDto);
 }

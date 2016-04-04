@@ -23,5 +23,5 @@ public interface IRecordService {
 
 	public void batchInsertRecords(String fileName) throws ServerException, ServiceException;
 	
-	public int getTotalNum(RecordDto RecordDto) throws ServerException, ServiceException;
+	public Integer getTotalNum(RecordDto RecordDto) throws ServerException, ServiceException;
 }

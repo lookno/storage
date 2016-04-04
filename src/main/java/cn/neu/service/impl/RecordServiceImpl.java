@@ -4,13 +4,10 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-
-import cn.neu.bean.Goods;
 import cn.neu.bean.OutputRecord;
 import cn.neu.bean.Record;
 import cn.neu.dao.GoodsDao;
 import cn.neu.dao.RecordDao;
-import cn.neu.dto.GoodsDto;
 import cn.neu.dto.OutputParamsDto;
 import cn.neu.dto.ProfitParamsDto;
 import cn.neu.dto.RecordDto;
@@ -66,6 +63,19 @@ public class RecordServiceImpl implements IRecordService {
 	}
 
 	@Override
+	public Integer getTotalNum(RecordDto recordDto) throws ServerException, ServiceException {
+		Integer count = 0;
+		try {
+			count = recordDao.getTotalNum(recordDto);
+		} catch (Exception e) {
+			log.error("RecordServiceImpl.getTotalNum occurs an Exception: ", e);
+			throw new ServerException("数据库异常,请稍后再试", e);
+		}
+
+		return count;
+	}
+
+	@Override
 	public List<Record> profit(ProfitParamsDto profitParamsDto) throws ServerException {
 		List<Record> records = null;
 		try {
@@ -96,6 +106,8 @@ public class RecordServiceImpl implements IRecordService {
 				or.setTypeName("购入花销记录");
 			} else if (or.getType() == 3) {
 				or.setTypeName("生产入库记录");
+			} else if (or.getType() == 4) {
+				or.setTypeName("修改商品价格记录");
 			}
 		}
 		return outputs;
@@ -113,19 +125,6 @@ public class RecordServiceImpl implements IRecordService {
 		}
 
 		recordDao.batchInsertRecords(list);
-	}
-
-	@Override
-	public int getTotalNum(RecordDto RecordDto) throws ServerException, ServiceException {
-		int count = 0;
-		try {
-			count = recordDao.getTotalNum(RecordDto);
-		} catch (Exception e) {
-			log.error("RecordServiceImpl.getTotalNum occurs an Exception: ", e);
-			throw new ServerException("数据库异常,请稍后再试", e);
-		}
-
-		return count;
 	}
 
 }
