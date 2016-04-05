@@ -10,4 +10,6 @@ public interface IUserService {
 	public int checkUserInfo(User user) throws ServerException;
 	public void changePwd(User user) throws ServerException;
 	public int checkPermission(User user) throws ServerException;
+	public User getUserById(int id) throws ServerException;
+	public User getUserByName(String username) throws ServerException;
 }

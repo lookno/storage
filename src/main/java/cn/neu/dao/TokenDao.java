@@ -9,5 +9,5 @@ public interface TokenDao {
 
 	public void inValid(TokenParamsDto params);
 
-	public int getUserIdByToken(String token);
+	public Integer getUserIdByToken(String token);
 }

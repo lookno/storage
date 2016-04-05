@@ -9,4 +9,6 @@ public interface UserDao {
 	public int checkUserInfo(User user);
 	public void changePwd(User user);
 	public int checkPermission(User user);
+	public User getUserById(int id);
+	public User getUserByName(String username);
 }

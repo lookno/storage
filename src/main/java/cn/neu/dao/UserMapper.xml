@@ -7,7 +7,8 @@
 			select last_insert_id()
 		</selectKey>
 		insert into
-		`user`(`username`,`password`,`phone`,`email`,`permission`) values(
+		`user`(`username`,`password`,`phone`,`email`,`permission`)
+		values(
 		#{username,jdbcType=VARCHAR},
 		#{password,jdbcType=VARCHAR},
 		#{phone,jdbcType=VARCHAR},
@@ -22,21 +23,28 @@
 		and `password` =
 		#{password,jdbcType=VARCHAR}
 	</select>
-
+	<select id="getUserById" parameterType="int" resultType="cn.neu.bean.User">
+		select * from `user` where id = #{id}
+	</select>
+	<select id="getUserByName" parameterType="String" resultType="cn.neu.bean.User">
+		select * from `user` where `username` = #{username}
+	</select>
 	<select id="checkUserInfo" parameterType="cn.neu.bean.User"
 		resultType="int">
 		select count(*) from `user` where `username` = #{username}
 		<if test="phone!=null">
-			 and `phone` = #{phone}
+			and `phone` = #{phone}
 		</if>
 		<if test="email!=null">
-			 and `email` = #{email}
+			and `email` = #{email}
 		</if>
 	</select>
 	<update id="changePwd" parameterType="cn.neu.bean.User">
-		update `user` set `password` = #{password} where `username` = #{username}
+		update `user` set
+		`password` = #{password} where `username` = #{username}
 	</update>
-	<select id="checkPermission" parameterType="cn.neu.bean.User" resultType="int">
+	<select id="checkPermission" parameterType="cn.neu.bean.User"
+		resultType="int">
 		select `permission` from `user` where `id` = #{id}
 	</select>
 </mapper>

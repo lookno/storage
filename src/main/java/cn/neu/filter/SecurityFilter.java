@@ -119,7 +119,7 @@ public class SecurityFilter implements Filter {
 								return;
 							}
 						}
-						
+
 					}
 
 				}
@@ -131,7 +131,8 @@ public class SecurityFilter implements Filter {
 	private boolean onlyRead(String uri) {
 		return uri.startsWith("/storage/goods/list") || uri.startsWith("/storage/goods/output")
 				|| uri.startsWith("/storage/record/list") || uri.startsWith("/storage/record/profit")
-				|| uri.startsWith("/storage/record/output") || uri.startsWith("/storage/user/logout");
+				|| uri.startsWith("/storage/record/output") || uri.startsWith("/storage/user/logout")
+				|| uri.startsWith("/storage/user/chgpwd");
 	}
 
 	private boolean isNormalWrite(String uri) {

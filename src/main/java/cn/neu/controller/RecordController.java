@@ -87,11 +87,12 @@ public class RecordController {
 
 	@RequestMapping(value = "/output", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
 	public ResponseEntity<Object> output(@ModelAttribute OutputParamsDto outputParamsDto) throws Exception {
+		System.out.println(outputParamsDto.getFileAddr());
 		log.info("into RecordController.profit() , param: " + outputParamsDto);
 		List<OutputRecord> outputList = iRecordService.output(outputParamsDto);
 		String address = outputParamsDto.getFileAddr() == null
 				? "c:\\" + new SimpleDateFormat("YYYY-MM-dd").format(new Date()) + "-账务记录.csv"
-				: outputParamsDto.getFileAddr() + new SimpleDateFormat("YYYY-MM-dd").format(new Date()) + "-账务记录.csv";
+				: outputParamsDto.getFileAddr();
 		CsvFileWriter.writeCsvFile(outputList, CsvFileWriter.OUTPUT_RECORD_FILE_HEADER, address);
 		Map<String, String> map = new HashMap<>();
 		map.put("msg", "导出csv文件成功");

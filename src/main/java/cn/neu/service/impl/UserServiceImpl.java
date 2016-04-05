@@ -80,4 +80,28 @@ class UserServiceImpl implements IUserService {
 		return i;
 	}
 
+	@Override
+	public User getUserById(int id) throws ServerException {
+		User user ;
+		try {
+			user = userDao.getUserById(id);
+		} catch (Exception e) {
+			log.error("UserServiceImpl.getUserById occurs an Exception: ", e);
+			throw new ServerException("数据库异常,请稍后再试", e);
+		}
+		return user;
+	}
+
+	@Override
+	public User getUserByName(String username) throws ServerException {
+		User user ;
+		try {
+			user = userDao.getUserByName(username);
+		} catch (Exception e) {
+			log.error("UserServiceImpl.getUserByName occurs an Exception: ", e);
+			throw new ServerException("数据库异常,请稍后再试", e);
+		}
+		return user;
+	}
+
 }

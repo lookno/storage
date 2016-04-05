@@ -50,7 +50,7 @@ public class TokenServiceImpl implements ITokenService {
 	}
 
 	@Override
-	public int getUserIdByToken(String token) throws ServerException {
+	public Integer getUserIdByToken(String token) throws ServerException {
 		int i;
 		try {
 			i = tokenDao.getUserIdByToken(token);
