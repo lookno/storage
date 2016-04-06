@@ -51,6 +51,7 @@ public class UserController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public ResponseEntity<Object> register(@RequestBody User user) throws Exception {
 		log.info("into UserController.register() , param: " + user);
+		
 		User u1 = iUserService.getUserByName(user.getUsername());
 		if(u1!=null){
 			Map<String, Object> map = new HashMap<>();
@@ -64,6 +65,27 @@ public class UserController {
 			map.put("msg", "用户类型错误");
 			return new ResponseEntity<Object>(map, HttpStatus.BAD_REQUEST);
 		}
+		
+		Pattern pattern = Pattern.compile("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
+		Matcher matcher = pattern.matcher(user.getEmail());
+		boolean b = matcher.matches();
+		if(!b){
+			Map<String, Object> map = new HashMap<>();
+			map.put("pos", "4");
+			map.put("msg", "邮箱格式不正确");
+			return new ResponseEntity<Object>(map, HttpStatus.BAD_REQUEST);
+		}
+		
+		Pattern pattern2 = Pattern.compile("^((13[0-9])|(15[0-9])|(18[0-9]))\\d{8}$");
+		Matcher matcher2 = pattern2.matcher(user.getPhone());
+		boolean b2 = matcher2.matches();
+		if(!b2){
+			Map<String, Object> map = new HashMap<>();
+			map.put("pos", "5");
+			map.put("msg", "手机号格式不正确");
+			return new ResponseEntity<Object>(map, HttpStatus.BAD_REQUEST);
+		}
+		
 		iUserService.register(user);
 		/*
 		 * String token = UUID.randomUUID().toString(); TokenParamsDto tpd = new
