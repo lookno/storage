@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -15,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import cn.neu.bean.OutputRecord;
 import cn.neu.bean.Record;
-import cn.neu.dto.GoodsDto;
 import cn.neu.dto.OutputParamsDto;
 import cn.neu.dto.ProfitParamsDto;
 import cn.neu.dto.RecordDto;
@@ -51,7 +48,6 @@ public class RecordController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
 	public ResponseEntity<Object> listRecord(@ModelAttribute RecordDto recordDto) throws Exception {
 		log.info("into RecordController.listRecord() , param: " + recordDto);
-		System.out.println(recordDto);
 		List<Record> recordList = iRecordService.listRecord(recordDto);
 		Integer count = iRecordService.getTotalNum(recordDto);
 		RecordVo RecordVo = new RecordVo();
@@ -60,7 +56,22 @@ public class RecordController {
 		RecordVo.setPage(recordDto.getPage());
 		return new ResponseEntity<Object>(RecordVo, HttpStatus.OK);
 	}
-
+	
+	public static void main(String[] args) {
+		int i = (int) 13.7;
+		System.out.println(i);
+	}
+/*	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
+	public ResponseEntity<Object> searchRecord(@ModelAttribute SearchDto searchDto) throws Exception {
+		log.info("into RecordController.searchRecord() , param: " + searchDto);
+		List<Record> recordList = iRecordService.searchRecord(searchDto);
+		Integer count = iRecordService.getSearchCount(searchDto);
+		RecordVo RecordVo = new RecordVo();
+		RecordVo.setRecords(recordList);
+		RecordVo.setCount(count==null?0:count);
+		RecordVo.setPage(searchDto.getPage());
+		return new ResponseEntity<Object>(RecordVo, HttpStatus.OK);
+	}*/
 	// time时间这样传localhost:8080/storage/record/profit?s_time=2016-01-01
 	// 00:00:00&e_time=2017-01-01 00:00:00
 	@RequestMapping(value = "/profit", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
@@ -73,11 +84,10 @@ public class RecordController {
 		profitVo.setS_time(profitParamsDto.getS_time());
 		double cost = 0, earn = 0;
 		for (Record r : recordList) {
-			if (r.getType() == 1) {// 出库
-				earn += r.getPrice();
-			}
-			if (r.getType() == 2) {// 花销
-				cost += r.getPrice();
+			if(r.getMode()==-1){//支出
+				cost+=r.getPrice();
+			}else if(r.getMode()==1){
+				earn+=r.getPrice();
 			}
 		}
 		profitVo.setCost(cost);

@@ -59,15 +59,6 @@
 		transaction-manager="transactionManager" />
 	<!-- 配置事务 -->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<tx:method name="get*" propagation="NOT_SUPPORTED" />
-			<tx:method name="find*" propagation="NOT_SUPPORTED" />
-			<tx:method name="add*" propagation="REQUIRED" />
-			<tx:method name="register*" propagation="REQUIRED" />
-			<tx:method name="insert*" propagation="REQUIRED" />
-			<tx:method name="create*" propagation="REQUIRED" />
-			<tx:method name="*" read-only="true" />
-		</tx:attributes>
 	</tx:advice>
 
 	<bean
@@ -87,7 +78,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- redis配置 -->
 	<!-- redis连接池的配置 -->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
@@ -103,6 +94,7 @@
 		<constructor-arg index="0" ref="jedisPoolConfig" />
 		<constructor-arg index="1" value="${redisHost}" />
 		<constructor-arg index="2" value="${redisPort}" type="int" />
-		<constructor-arg index="3" value="${redisTimeout}" type="int" />
+		<constructor-arg index="3" value="${redisTimeout}"
+			type="int" />
 	</bean>
 </beans>

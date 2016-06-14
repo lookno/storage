@@ -7,15 +7,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.annotation.Resource;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Component;
-
 import cn.neu.bean.Goods;
 import cn.neu.bean.OutputGoods;
 import cn.neu.bean.OutputRecord;
@@ -23,7 +19,6 @@ import cn.neu.bean.Record;
 import cn.neu.dao.GoodsDao;
 import cn.neu.dto.GoodsDto;
 import cn.neu.exception.ServiceException;
-import cn.neu.service.IGoodsService;
 
 @Component
 public class CsvFileWriter {
@@ -121,7 +116,7 @@ public class CsvFileWriter {
 		return list;
 	}
 
-	@SuppressWarnings("resource")
+	@SuppressWarnings({ "resource", "rawtypes" })
 	public static void writeCsvFile(List list, Object[] header, String fileName) throws Exception {
 		FileWriter fileWriter = new FileWriter(fileName);
 		CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator(NEW_LINE_SEPARATOR);

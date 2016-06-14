@@ -8,7 +8,7 @@ import cn.neu.exception.ServerException;
 import cn.neu.exception.ServiceException;
 
 public interface IGoodsService {
-	public void insertGoods(Goods goods) throws ServerException;
+	public void insertGoods(Goods goods) throws ServerException, ServiceException;
 
 	public void updateGoods(Goods goods) throws ServerException;
 
@@ -17,6 +17,10 @@ public interface IGoodsService {
 	public List<OutputGoods> output(GoodsDto goodsDto) throws ServerException;
 
 	public void batchInsertGoods(String fileName) throws ServerException, ServiceException;
-	
+
 	public Integer getTotalNum(GoodsDto goodsDto) throws ServerException, ServiceException;
+
+	//public List<Goods> searchGoods(SearchDto searchDto) throws ServerException, ServiceException;
+	
+	//public Integer getSearchCount(SearchDto searchDto) throws ServerException, ServiceException;
 }

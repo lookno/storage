@@ -1,7 +1,6 @@
 package cn.neu.service;
 
 import java.util.List;
-
 import cn.neu.bean.OutputRecord;
 import cn.neu.bean.Record;
 import cn.neu.dto.OutputParamsDto;
@@ -22,6 +21,10 @@ public interface IRecordService {
 	public List<OutputRecord> output(OutputParamsDto outputParamsDto) throws ServerException;
 
 	public void batchInsertRecords(String fileName) throws ServerException, ServiceException;
-	
+
 	public Integer getTotalNum(RecordDto RecordDto) throws ServerException, ServiceException;
+
+	//public List<Record> searchRecord(SearchDto searchDto) throws ServerException, ServiceException;
+
+	//public Integer getSearchCount(SearchDto searchDto) throws ServerException, ServiceException;
 }

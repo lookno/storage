@@ -4,11 +4,12 @@
 <mapper namespace="cn.neu.dao.RecordDao">
 	<insert id="insertRecord" parameterType="cn.neu.bean.Record">
 		insert into
-		`record`(`goods_id`,`comment`,`price`,`type`) values(
+		`record`(`goods_id`,`comment`,`price`,`type`,`mode`) values(
 		#{goods_id,jdbcType=INTEGER},
 		#{comment,jdbcType=VARCHAR},
 		#{price,jdbcType=DOUBLE},
-		#{type,jdbcType=INTEGER}
+		#{type,jdbcType=INTEGER},
+		#{mode,jdbcType=INTEGER}
 		)
 	</insert>
 	<update id="updateRecord" parameterType="cn.neu.bean.Record">
@@ -38,18 +39,73 @@
 		<if test="type != 0">
 			and r.type = #{type}
 		</if>
+		<if test="key !=null">
+			and (r.id like '%${key}%'
+			or r.goods_id like '%${key}%'
+			or
+			r.comment like '%${key}%'
+			or r.price like '%${key}%'
+			or g.name like
+			'%${key}%' )
+		</if>
 		limit #{start},#{limit}
 	</select>
 	<select id="getTotalNum" parameterType="cn.neu.dto.RecordDto"
 		resultType="Integer">
-		select count(*) from record
+		select count(*) from `record` as r left join `goods` as g on r.goods_id
+		=
+		g.id
 		where 1=1
 		<if test="type != 0">
+			and r.type = #{type}
+		</if>
+		<if test="key !=null">
+			and (r.id like '%${key}%'
+			or r.goods_id like '%${key}%'
+			or
+			r.comment like '%${key}%'
+			or r.price like '%${key}%'
+			or g.name like
+			'%${key}%' )
+		</if>
+	</select>
+<!-- 
+	<select id="searchRecord" parameterType="cn.neu.dto.SearchDto"
+		resultType="cn.neu.bean.Record">
+		select r.id,r.goods_id,
+		r.create_time,r.update_time,r.comment,r.price,r.type,g.name as
+		goods_name from `record` as r left join `goods` as g on r.goods_id
+		=
+		g.id
+		where 1=1
+		<if test="type!=0">
+			and r.type = #{type}
+		</if>
+		and (r.id like '%${key}%'
+		or r.goods_id like '%${key}%'
+		or r.comment
+		like '%${key}%'
+		or r.price like '%${key}%'
+		or g.name like '%${key}%' )
+		<if test="limit!=0">
+			limit #{start},#{limit}
+		</if>
+	</select>
+	<select id="getSearchCount" parameterType="cn.neu.dto.SearchDto"
+		resultType="Integer">
+		select count(*) from `record` as r left join `goods` as g on
+		r.goods_id = g.id where 1=1
+		<if test="type!=0">
 			and type = #{type}
 		</if>
-		limit #{start},#{limit}
+		and (r.id like '%${key}%'
+		or r.goods_id like '%${key}%'
+		or r.comment
+		like '%${key}%'
+		or r.price like '%${key}%'
+		or g.name like '%${key}%')
 	</select>
-
+-->
 	<select id="profit" parameterType="cn.neu.dto.ProfitParamsDto"
 		resultType="cn.neu.bean.Record">
 		select * from `record` where 1=1

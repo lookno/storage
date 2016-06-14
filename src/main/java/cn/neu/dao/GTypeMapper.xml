@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.neu.dao.GTypeDao">
+	<select id="getGTypes" resultType="cn.neu.bean.GType">
+		select * from g_type
+	</select>
+	<select id="getGTypeById" parameterType="int" resultType="cn.neu.bean.GType">
+		select * from g_type where id = #{id}
+	</select>
+	<insert id="addGType" parameterType="cn.neu.bean.GType">
+		insert into
+		g_type(id,g_name,when_in,when_out) values (#{id},#{g_name},#{when_in},#{when_out})
+	</insert>
+	<update id="updateGType" parameterType="cn.neu.bean.GType">
+		update g_type set id=id 
+		<if test="g_name!=null">
+			, g_name = #{g_name}
+		</if>
+		 , when_in = #{when_in}, when_out = #{when_out} where id = #{id}
+	</update>
+</mapper>

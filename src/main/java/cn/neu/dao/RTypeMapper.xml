@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.neu.dao.RTypeDao">
+	<select id="getRTypes" resultType="cn.neu.bean.RType">
+		select * from r_type
+	</select>
+	<insert id="addRType" parameterType="cn.neu.bean.RType">
+		insert into
+		r_type(id,r_name) values (#{id},#{r_name})
+	</insert>
+	<update id="updateRType" parameterType="cn.neu.bean.RType">
+		update r_type set r_name = #{r_name} where id = #{id}
+	</update>
+</mapper>

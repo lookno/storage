@@ -4,6 +4,8 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import cn.neu.dao.TokenDao;
 import cn.neu.dto.TokenParamsDto;
@@ -17,6 +19,7 @@ public class TokenServiceImpl implements ITokenService {
 	private TokenDao tokenDao;
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
 	public void insertToken(TokenParamsDto params) throws ServerException {
 		try {
 			tokenDao.insertToken(params);
@@ -39,6 +42,7 @@ public class TokenServiceImpl implements ITokenService {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
 	public void inValid(TokenParamsDto params) throws ServerException {
 		try {
 			tokenDao.inValid(params);

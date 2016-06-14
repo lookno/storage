@@ -7,6 +7,7 @@ public class RecordDto {
 	private int limit;
 	private int type; // 0所有 1 出库 2花销 3入库
 	private String fileAddr;
+	private String key;
 
 	public int getPage() {
 		return page;
@@ -56,10 +57,18 @@ public class RecordDto {
 		this.fileAddr = fileAddr;
 	}
 
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
 	@Override
 	public String toString() {
 		return "RecordDto [page=" + page + ", pageSize=" + pageSize + ", start=" + start + ", limit=" + limit
-				+ ", type=" + type + ", fileAddr=" + fileAddr + "]";
+				+ ", type=" + type + ", fileAddr=" + fileAddr + ", key=" + key + "]";
 	}
 
 }

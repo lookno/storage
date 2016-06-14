@@ -1,6 +1,5 @@
 package cn.neu.filter;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import cn.neu.bean.User;
 import cn.neu.dto.TokenParamsDto;
@@ -22,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class SecurityFilter implements Filter {
-	private Logger log = Logger.getLogger(this.getClass());
+	// private Logger log = Logger.getLogger(this.getClass());
 	@Resource
 	private ITokenService iTokenService;
 	@Resource
@@ -132,13 +131,17 @@ public class SecurityFilter implements Filter {
 		return uri.startsWith("/storage/goods/list") || uri.startsWith("/storage/goods/output")
 				|| uri.startsWith("/storage/record/list") || uri.startsWith("/storage/record/profit")
 				|| uri.startsWith("/storage/record/output") || uri.startsWith("/storage/user/logout")
-				|| uri.startsWith("/storage/user/chgpwd");
+				|| uri.startsWith("/storage/user/chgpwd") || uri.startsWith("/storage/goods/search")
+				|| uri.startsWith("/storage/record/search") || uri.startsWith("/storage/type/g_list")
+				|| uri.startsWith("/storage/type/r_list");
 	}
 
 	private boolean isNormalWrite(String uri) {
 		return uri.startsWith("/storage/goods/add") || uri.startsWith("/storage/goods/modify")
 				|| uri.startsWith("/storage/goods/input") || uri.startsWith("/storage/record/add")
-				|| uri.startsWith("/storage/record/modify") || uri.startsWith("/storage/record/input");
+				|| uri.startsWith("/storage/record/modify") || uri.startsWith("/storage/record/input")
+				|| uri.startsWith("/storage/type/g_add") || uri.startsWith("/storage/type/g_edit")
+				|| uri.startsWith("/storage/type/r_add") || uri.startsWith("/storage/type/r_edit");
 	}
 
 	private boolean isSuperWrite(String uri) {

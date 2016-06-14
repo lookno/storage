@@ -7,15 +7,12 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -113,6 +110,7 @@ public class UserController {
 			UserVo uv = new UserVo();
 			uv.setToken(token);
 			uv.setUsername(user2.getUsername());
+			uv.setPermission(user2.getPermission());
 			return new ResponseEntity<Object>(uv, HttpStatus.OK);
 		}
 		Map<String, Object> map = new HashMap<>();

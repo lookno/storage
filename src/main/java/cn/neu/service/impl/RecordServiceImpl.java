@@ -4,6 +4,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import cn.neu.bean.OutputRecord;
 import cn.neu.bean.Record;
 import cn.neu.dao.GoodsDao;
@@ -25,6 +27,7 @@ public class RecordServiceImpl implements IRecordService {
 	private Logger log = Logger.getLogger(this.getClass());
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void insertRecord(Record record) throws ServerException {
 		try {
 			recordDao.insertRecord(record);
@@ -35,6 +38,7 @@ public class RecordServiceImpl implements IRecordService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void updateRecord(Record record) throws ServerException {
 		try {
 			recordDao.updateRecord(record);
@@ -49,7 +53,7 @@ public class RecordServiceImpl implements IRecordService {
 		if (recordDto.getPage() <= 0)
 			recordDto.setPage(1);
 		if (recordDto.getPageSize() <= 0)
-			recordDto.setPageSize(20);
+			recordDto.setPageSize(16);
 		recordDto.setStart((recordDto.getPage() - 1) * recordDto.getPageSize());
 		recordDto.setLimit(recordDto.getPageSize());
 		List<Record> recordList = null;
@@ -74,6 +78,37 @@ public class RecordServiceImpl implements IRecordService {
 
 		return count;
 	}
+
+/*	@Override
+	public List<Record> searchRecord(SearchDto searchDto) throws ServerException, ServiceException {
+		if (searchDto.getPage() <= 0)
+			searchDto.setPage(1);
+		if (searchDto.getPageSize() <= 0)
+			searchDto.setPageSize(16);
+		searchDto.setStart((searchDto.getPage() - 1) * searchDto.getPageSize());
+		searchDto.setLimit(searchDto.getPageSize());
+		List<Record> recordList = null;
+		try {
+			recordList = recordDao.searchRecord(searchDto);
+		} catch (Exception e) {
+			log.error("RecordServiceImpl.searchRecord occurs an Exception: ", e);
+			throw new ServerException("数据库异常,请稍后再试", e);
+		}
+		return recordList;
+	}
+
+	@Override
+	public Integer getSearchCount(SearchDto searchDto) throws ServerException, ServiceException {
+		Integer count = 0;
+		try {
+			count = recordDao.getSearchCount(searchDto);
+		} catch (Exception e) {
+			log.error("RecordServiceImpl.getSearchCount occurs an Exception: ", e);
+			throw new ServerException("数据库异常,请稍后再试", e);
+		}
+
+		return count;
+	}*/
 
 	@Override
 	public List<Record> profit(ProfitParamsDto profitParamsDto) throws ServerException {

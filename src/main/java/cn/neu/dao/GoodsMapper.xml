@@ -14,6 +14,9 @@
 		#{price,jdbcType=DOUBLE}
 		)
 	</insert>
+	<select id="getGoodsById" parameterType="int" resultType="cn.neu.bean.Goods">
+		select * from goods where id = #{id}
+	</select>
 	<update id="updateGoods" parameterType="cn.neu.bean.Goods">
 		update `goods` set id = #{id,jdbcType=INTEGER}
 		<if test="name !=null">
@@ -45,14 +48,54 @@
 		<if test="listZero == false">
 			and `count` >0
 		</if>
+		<if test="key!=null">
+			and (`id` like '%${key}%' or `name` like
+			'%${key}%' or
+			`count` like
+			'%${key}%' or `price` like
+			'%${key}%')
+		</if>
 		<if test="limit!=0">
 			limit #{start},#{limit}
 		</if>
 	</select>
-	<select id="getTotalNum" parameterType="cn.neu.dto.GoodsDto" resultType="Integer">
+<!--  	<select id="searchGoods" parameterType="cn.neu.dto.SearchDto"
+		resultType="cn.neu.bean.Goods">
+		select * from `goods` where 1=1
+		<if test="type!=0">
+			and type = #{type}
+		</if>
+		and (`id` like '%${key}%' or `name` like
+		'%${key}%' or `count` like
+		'%${key}%' or `price` like
+		'%${key}%')
+		<if test="limit!=0">
+			limit #{start},#{limit}
+		</if>
+	</select>
+	<select id="getSearchCount" parameterType="cn.neu.dto.SearchDto"
+		resultType="Integer">
+		select count(*) from `goods` where 1=1
+		<if test="type!=0">
+			and type = #{type}
+		</if>
+		and (`id` like '%${key}%' or `name` like
+		'%${key}%' or `count` like
+		'%${key}%' or `price` like
+		'%${key}%')
+	</select>
+-->
+	<select id="getTotalNum" parameterType="cn.neu.dto.GoodsDto"
+		resultType="Integer">
 		select count(*) from `goods` where 1=1
 		<if test="type !=0">
 			and `type` = #{type,jdbcType=INTEGER}
+		</if>
+		<if test="key!=null">
+			and (`id` like '%${key}%' or `name` like
+			'%${key}%' or `count` like
+			'%${key}%' or `price` like
+			'%${key}%')
 		</if>
 		<if test="listZero == false">
 			and `count` >0

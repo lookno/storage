@@ -14,4 +14,9 @@ public interface GoodsDao {
 	public void batchInsertGoods(List<Goods> list);
 	
 	public Integer getTotalNum(GoodsDto goodsDto);
+	
+	public Goods getGoodsById(int id);
+	//public List<Goods> searchGoods(SearchDto searchDto);
+	
+	//public Integer getSearchCount(SearchDto searchDto);
 }

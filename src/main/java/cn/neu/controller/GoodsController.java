@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -17,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import cn.neu.bean.Goods;
 import cn.neu.bean.OutputGoods;
-import cn.neu.bean.OutputRecord;
 import cn.neu.dto.GoodsDto;
-import cn.neu.dto.OutputParamsDto;
 import cn.neu.service.IGoodsService;
 import cn.neu.utils.CsvFileWriter;
 import cn.neu.vo.GoodsVo;
@@ -49,7 +46,7 @@ public class GoodsController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
-	// page 和pageSize默认为1和20 type不传即查所有
+	// page 和pageSize默认为1和16 type不传即查所有
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
 	public ResponseEntity<Object> listGoods(@ModelAttribute GoodsDto goodsDto) throws Exception {
 		log.info("into GoodsController.listGoods() , param: " + goodsDto);
@@ -57,18 +54,31 @@ public class GoodsController {
 		Integer count = iGoodsService.getTotalNum(goodsDto);
 		GoodsVo goodsVo = new GoodsVo();
 		goodsVo.setGoods(goodsList);
-		goodsVo.setCount(count==null?0:count);
+		goodsVo.setCount(count == null ? 0 : count);
 		goodsVo.setPage(goodsDto.getPage());
 		return new ResponseEntity<Object>(goodsVo, HttpStatus.OK);
 	}
-
+/*
+	// page 和pageSize默认为1和16 type不传即查所有
+	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
+	public ResponseEntity<Object> searchGoods(@ModelAttribute SearchDto searchDto) throws Exception {
+		log.info("into GoodsController.searchGoods() , param: " + searchDto);
+		searchDto.setKey(StringUtils.trimWhitespace(searchDto.getKey()));
+		List<Goods> goodsList = iGoodsService.searchGoods(searchDto);
+		Integer count = iGoodsService.getSearchCount(searchDto);
+		GoodsVo goodsVo = new GoodsVo();
+		goodsVo.setGoods(goodsList);
+		goodsVo.setCount(count == null ? 0 : count);
+		goodsVo.setPage(searchDto.getPage());
+		return new ResponseEntity<Object>(goodsVo, HttpStatus.OK);
+	}*/
+	
 	@RequestMapping(value = "/output", method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
 	public ResponseEntity<Object> output(@ModelAttribute GoodsDto goodsDto) throws Exception {
 		log.info("into GoodsController.output() , param: " + goodsDto);
 		List<OutputGoods> outputList = iGoodsService.output(goodsDto);
 		String address = goodsDto.getFileAddr() == null
-				? "c:\\" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "-库存记录.csv"
-				: goodsDto.getFileAddr();
+				? "c:\\" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "-库存记录.csv" : goodsDto.getFileAddr();
 		CsvFileWriter.writeCsvFile(outputList, CsvFileWriter.GOODS_FILE_HEADER, address);
 		Map<String, String> map = new HashMap<>();
 		map.put("msg", "导出csv文件成功");

@@ -26,6 +26,14 @@
 		<commons-email.version>1.4</commons-email.version>
 	</properties>
 	<dependencies>
+
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>4.0</version>
+		</dependency>
+
+
 		<!-- jackson AnnotationMethodHandlerAdapter依赖 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
